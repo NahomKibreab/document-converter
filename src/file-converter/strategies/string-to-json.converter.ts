@@ -15,6 +15,8 @@ export class StringToJsonConverter implements ConversionStrategy {
 
     segments.forEach((segment) => {
       const elements = segment.split(elementSeparator);
+
+      console.log('elements', elements);
       const segmentName = elements[0];
       const segmentData = {};
 
