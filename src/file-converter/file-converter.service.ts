@@ -5,6 +5,7 @@ import { join } from 'path';
 import { ConversionContext } from './conversion-context';
 import { FileConverterDto, FileFormatType } from './dto/file-converter.dto';
 import { JsonToStringConverter } from './strategies/json-to-string.converter';
+import { JsonToXmlConverter } from './strategies/json-to-xml.converter';
 import { StringToJsonConverter } from './strategies/string-to-json.converter';
 import { StringToXmlConverter } from './strategies/string-to-xml.converter';
 import { XmlToStringConverter } from './strategies/xml-to-string.converter';
@@ -24,7 +25,6 @@ export class FileConverterService {
 
     switch (targetFormat) {
       case FileFormatType.STRING_TO_JSON:
-        console.log('StringToJsonConverter - CASE');
         this.conversionContext.setStrategy(new StringToJsonConverter());
         return this.conversionContext.convert({
           segmentSeparator: separators.segmentSeparator,
@@ -51,12 +51,17 @@ export class FileConverterService {
         });
       case FileFormatType.XML_TO_STRING:
         this.conversionContext.setStrategy(new XmlToStringConverter());
-        const result = this.conversionContext.convert({
+        return this.conversionContext.convert({
           content,
           elementSeparator: separators.elementSeparator,
           segmentSeparator: separators.segmentSeparator,
         });
-        return result;
+
+      case FileFormatType.JSON_TO_XML:
+        this.conversionContext.setStrategy(new JsonToXmlConverter());
+        return this.conversionContext.convert({
+          content,
+        });
     }
   }
 

@@ -6,17 +6,13 @@ import {
 export class StringToJsonConverter implements ConversionStrategy {
   convert(input: ConversionStrategyInput): object {
     const { segmentSeparator, elementSeparator, content } = input;
-    console.log('StringToJsonConverter - Input', input);
     const contentString = content.toString();
-    console.log('contentString', contentString);
     const segments = contentString.split(segmentSeparator);
 
     const result = {};
 
     segments.forEach((segment) => {
       const elements = segment.split(elementSeparator);
-
-      console.log('elements', elements);
       const segmentName = elements[0];
       const segmentData = {};
 
