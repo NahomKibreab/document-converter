@@ -1,6 +1,9 @@
-import { ConversionStrategyInput } from '../interfaces/conversion-strategy.interface';
+import {
+  ConversionStrategy,
+  ConversionStrategyInput,
+} from '../interfaces/conversion-strategy.interface';
 
-export class StringToXmlConverter {
+export class StringToXmlConverter implements ConversionStrategy {
   convert(input: ConversionStrategyInput): any {
     const { segmentSeparator, elementSeparator, content } = input;
     const contentString = content.toString();
