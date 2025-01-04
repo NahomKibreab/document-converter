@@ -8,6 +8,7 @@ import { JsonToStringConverter } from './strategies/json-to-string.converter';
 import { JsonToXmlConverter } from './strategies/json-to-xml.converter';
 import { StringToJsonConverter } from './strategies/string-to-json.converter';
 import { StringToXmlConverter } from './strategies/string-to-xml.converter';
+import { XmlToJsonConverter } from './strategies/xml-to-json.converter';
 import { XmlToStringConverter } from './strategies/xml-to-string.converter';
 
 @Injectable()
@@ -59,6 +60,12 @@ export class FileConverterService {
 
       case FileFormatType.JSON_TO_XML:
         this.conversionContext.setStrategy(new JsonToXmlConverter());
+        return this.conversionContext.convert({
+          content,
+        });
+
+      case FileFormatType.XML_TO_JSON:
+        this.conversionContext.setStrategy(new XmlToJsonConverter());
         return this.conversionContext.convert({
           content,
         });
