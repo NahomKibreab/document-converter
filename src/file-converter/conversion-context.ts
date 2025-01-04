@@ -1,4 +1,7 @@
-import { ConversionStrategy } from './interfaces/conversion-strategy.interface';
+import {
+  ConversionStrategy,
+  ConversionStrategyInput,
+} from './interfaces/conversion-strategy.interface';
 
 export class ConversionContext {
   private strategy: ConversionStrategy;
@@ -7,7 +10,7 @@ export class ConversionContext {
     this.strategy = strategy;
   }
 
-  convert(input: any): any {
+  convert(input: ConversionStrategyInput): any {
     return this.strategy.convert(input);
   }
 }

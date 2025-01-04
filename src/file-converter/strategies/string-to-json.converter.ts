@@ -1,15 +1,12 @@
-import { ConversionStrategy } from '../interfaces/conversion-strategy.interface';
+import { ConversionStrategyInput } from '../interfaces/conversion-strategy.interface';
 
-export interface StringToJsonConverterInput {
-  segmentSeparator: string;
-  elementSeparator: string;
-  content: string;
-}
-
-export class StringToJsonConverter implements ConversionStrategy {
-  convert(input: StringToJsonConverterInput): object {
+export class StringToJsonConverter {
+  convert(input: ConversionStrategyInput): object {
     const { segmentSeparator, elementSeparator, content } = input;
-    const segments = content.split(segmentSeparator);
+    console.log('StringToJsonConverter - Input', input);
+    const contentString = content.toString();
+    console.log('contentString', contentString);
+    const segments = contentString.split(segmentSeparator);
 
     const result = {};
 

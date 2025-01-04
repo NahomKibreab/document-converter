@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import * as fs from 'fs';
+import { promises as fs } from 'fs';
 import { join } from 'path';
 import { ConversionContext } from './conversion-context';
 import { FileConverterDto, FileFormatType } from './dto/file-converter.dto';
 import { JsonToStringConverter } from './strategies/json-to-string.converter';
 import { StringToJsonConverter } from './strategies/string-to-json.converter';
 import { StringToXmlConverter } from './strategies/string-to-xml.converter';
+import { XmlToStringConverter } from './strategies/xml-to-string.converter';
 
 @Injectable()
 export class FileConverterService {
@@ -16,13 +17,14 @@ export class FileConverterService {
     this.conversionContext = new ConversionContext();
   }
 
-  convertDocument(input: FileConverterDto, res: Response) {
+  async convertDocument(input: FileConverterDto, res: Response) {
     const { targetFormat, fileId, separators } = input;
     const readFilePath = join(process.cwd(), `upload/${fileId}`);
-    const content = fs.readFileSync(readFilePath, 'utf8');
+    const content = await fs.readFile(readFilePath);
 
     switch (targetFormat) {
       case FileFormatType.STRING_TO_JSON:
+        console.log('StringToJsonConverter - CASE');
         this.conversionContext.setStrategy(new StringToJsonConverter());
         return this.conversionContext.convert({
           segmentSeparator: separators.segmentSeparator,
@@ -31,7 +33,7 @@ export class FileConverterService {
         });
       case FileFormatType.STRING_TO_XML:
         this.conversionContext.setStrategy(new StringToXmlConverter());
-        const result = this.conversionContext.convert({
+        const xmlConversionResult = this.conversionContext.convert({
           segmentSeparator: separators.segmentSeparator,
           elementSeparator: separators.elementSeparator,
           content,
@@ -39,7 +41,7 @@ export class FileConverterService {
 
         res.set('Content-Type', 'application/xml');
 
-        return res.send(result);
+        return res.send(xmlConversionResult);
       case FileFormatType.JSON_TO_STRING:
         this.conversionContext.setStrategy(new JsonToStringConverter());
         return this.conversionContext.convert({
@@ -47,6 +49,14 @@ export class FileConverterService {
           elementSeparator: separators.elementSeparator,
           content,
         });
+      case FileFormatType.XML_TO_STRING:
+        this.conversionContext.setStrategy(new XmlToStringConverter());
+        const result = this.conversionContext.convert({
+          content,
+          elementSeparator: separators.elementSeparator,
+          segmentSeparator: separators.segmentSeparator,
+        });
+        return result;
     }
   }
 

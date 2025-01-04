@@ -12,13 +12,13 @@ export class FileConverterController {
   ];
 
   @Post()
-  convert(
+  async convert(
     @Body() createFileConverterDto: FileConverterDto,
     @Res() res: Response,
   ) {
     console.log(createFileConverterDto);
 
-    const result = this.fileConverterService.convertDocument(
+    const result = await this.fileConverterService.convertDocument(
       createFileConverterDto,
       res,
     );
@@ -28,9 +28,7 @@ export class FileConverterController {
       return res.send(result);
     }
 
-    return res.send(
-      this.fileConverterService.convertDocument(createFileConverterDto, res),
-    );
+    return res.send(result);
   }
 
   @Delete(':id')

@@ -1,11 +1,10 @@
-import { DocumentInput } from 'src/interfaces/document.interface';
-import { ConversionStrategy } from '../interfaces/conversion-strategy.interface';
+import { ConversionStrategyInput } from '../interfaces/conversion-strategy.interface';
 
-export class JsonToStringConverter implements ConversionStrategy {
-  convert(input: DocumentInput): string {
+export class JsonToStringConverter {
+  convert(input: ConversionStrategyInput): string {
     const { content, segmentSeparator, elementSeparator } = input;
 
-    const jsonObject = JSON.parse(content);
+    const jsonObject = JSON.parse(content.toString());
     let result = '';
 
     for (const key in jsonObject) {

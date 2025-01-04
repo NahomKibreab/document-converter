@@ -1,15 +1,10 @@
-import { ConversionStrategy } from '../interfaces/conversion-strategy.interface';
+import { ConversionStrategyInput } from '../interfaces/conversion-strategy.interface';
 
-export interface StringToXmlConverterInput {
-  segmentSeparator: string;
-  elementSeparator: string;
-  content: string;
-}
-
-export class StringToXmlConverter implements ConversionStrategy {
-  convert(input: StringToXmlConverterInput): any {
+export class StringToXmlConverter {
+  convert(input: ConversionStrategyInput): any {
     const { segmentSeparator, elementSeparator, content } = input;
-    const segments = content.split(segmentSeparator);
+    const contentString = content.toString();
+    const segments = contentString.split(segmentSeparator);
 
     let xmlOutput = '<?xml version="1.0" encoding="UTF-8" ?>\n<root>\n';
 
