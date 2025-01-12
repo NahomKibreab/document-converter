@@ -1,6 +1,16 @@
-import { Body, Controller, Delete, Param, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+  Res,
+  UseFilters,
+} from '@nestjs/common';
 import { Response } from 'express';
-import { FileConverterDto, FileFormatType } from './dto/file-converter.dto';
+import { DeleteFileOnErrorFilter } from 'src/file-converter/filters/delete-file-on-error.filter';
+import { FileFormatType } from 'src/shared/enums/file.enum';
+import { FileConverterDto } from './dto/file-converter.dto';
 import { FileConverterService } from './file-converter.service';
 
 @Controller('convert')
@@ -12,6 +22,7 @@ export class FileConverterController {
   ];
 
   @Post()
+  @UseFilters(new DeleteFileOnErrorFilter())
   async convert(
     @Body() createFileConverterDto: FileConverterDto,
     @Res() res: Response,

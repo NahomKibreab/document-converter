@@ -1,30 +1,41 @@
 import {
-  Body,
   Controller,
+  MaxFileSizeValidator,
+  ParseFilePipe,
   Post,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileUploaderDto } from './dto/file-uploader.dto';
+import { FileFormatExtension } from 'src/shared/enums/file.enum';
 import { FileUploaderService } from './file-uploader.service';
+import { FileTypeValidator } from './validator/file-type.validator';
 
 @Controller()
 export class FileUploaderController {
   constructor(private readonly fileUploaderService: FileUploaderService) {}
 
-  @UseInterceptors(FileInterceptor('file'))
-  @Post('file')
-  uploadFile(
-    @Body() body: FileUploaderDto,
-    @UploadedFile() file: Express.Multer.File,
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('fileName'))
+  async uploadFile(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10e5 }), // maximum file size 1MB
+          new FileTypeValidator({
+            fileType: Object.values(FileFormatExtension),
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
   ) {
-    console.log(file);
+    const fileId = await this.fileUploaderService.saveFile(file);
+
     return {
-      body,
-      fileId: this.fileUploaderService.getFileId(file),
-      fileName: this.fileUploaderService.getFileName(file),
-      fileType: this.fileUploaderService.getFileType(file),
+      fileId,
+      originalFileName: file.originalname,
+      fileType: file.mimetype,
     };
   }
 }

@@ -1,17 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { promises as fs } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class FileUploaderService {
-  getFileId(file: Express.Multer.File) {
-    return file.filename;
-  }
+  async saveFile(file: Express.Multer.File) {
+    const uploadDir = join(process.cwd(), 'upload');
+    const fileExtension = file.originalname.split('.').pop();
+    const uniqueIdentifier = `${Date.now()}${Math.round(Math.random() * 1e9)}`;
+    const newFileName = `${uniqueIdentifier}.${fileExtension}`;
+    const uploadPath = join(uploadDir, newFileName);
 
-  getFileName(file: Express.Multer.File) {
-    return file.originalname;
-  }
+    try {
+      await fs.mkdir(uploadDir, { recursive: true });
+      await fs.writeFile(uploadPath, file.buffer);
 
-  getFileType(file: Express.Multer.File) {
-    console.log(file.mimetype);
-    return file.mimetype;
+      return uniqueIdentifier;
+    } catch (error) {
+      throw new BadRequestException('Failed to save file', error);
+    }
   }
 }

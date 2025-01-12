@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { FileUploaderController } from './file-uploader.controller';
 import { FileUploaderService } from './file-uploader.service';
 
@@ -7,8 +8,10 @@ import { FileUploaderService } from './file-uploader.service';
   controllers: [FileUploaderController],
   providers: [FileUploaderService],
   imports: [
-    MulterModule.register({
-      dest: './upload',
+    MulterModule.registerAsync({
+      useFactory: () => ({
+        storage: memoryStorage(),
+      }),
     }),
   ],
 })
