@@ -11,7 +11,6 @@ export class FileUploaderService {
     const newFileName = `${uniqueIdentifier}.${fileExtension}`;
     const uploadPath = join(uploadDir, newFileName);
 
-    console.log('uniqueIdentifier', uniqueIdentifier);
     try {
       await fs.mkdir(uploadDir, { recursive: true });
       await fs.writeFile(uploadPath, file.buffer);

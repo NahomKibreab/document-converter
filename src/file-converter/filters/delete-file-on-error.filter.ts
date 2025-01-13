@@ -15,8 +15,6 @@ export class DeleteFileOnErrorFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
 
-    console.log('Deleting file on error');
-
     if (request.file.path) {
       await fs.unlink(request.file.path);
     }
