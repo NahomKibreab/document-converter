@@ -19,7 +19,6 @@ export class XmlToStringConverter implements ConversionStrategy {
 
     this.processObject(xmlToJsonResult.root, segments, elementSeparator);
 
-    // Join all segments with the segment separator and return the result
     return segments.join(segmentSeparator) + segmentSeparator;
   }
 
