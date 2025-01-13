@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileFormatExtension } from 'src/shared/enums/file.enum';
+import { FileFormatExtension } from '../shared/enums/file.enum';
 import { FileUploaderService } from './file-uploader.service';
 import { FileTypeValidator } from './validator/file-type.validator';
 
