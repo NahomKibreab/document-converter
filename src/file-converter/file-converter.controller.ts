@@ -8,8 +8,8 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { DeleteFileOnErrorFilter } from 'src/file-converter/filters/delete-file-on-error.filter';
-import { FileFormatType } from 'src/shared/enums/file.enum';
+import { DeleteFileOnErrorFilter } from '../file-converter/filters/delete-file-on-error.filter';
+import { FileFormatType } from '../shared/enums/file.enum';
 import { FileConverterDto } from './dto/file-converter.dto';
 import { FileConverterService } from './file-converter.service';
 
@@ -27,8 +27,6 @@ export class FileConverterController {
     @Body() createFileConverterDto: FileConverterDto,
     @Res() res: Response,
   ) {
-    console.log(createFileConverterDto);
-
     const result = await this.fileConverterService.convertDocument(
       createFileConverterDto,
       res,

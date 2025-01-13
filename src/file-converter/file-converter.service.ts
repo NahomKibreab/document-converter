@@ -6,7 +6,7 @@ import {
 import { Response } from 'express';
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { FileFormatType } from 'src/shared/enums/file.enum';
+import { FileFormatType } from '../shared/enums/file.enum';
 import { getAllowedFileExtension } from '../shared/utils/file-format-mapper.util';
 import { ConversionContext } from './conversion-context';
 import { FileConverterDto } from './dto/file-converter.dto';

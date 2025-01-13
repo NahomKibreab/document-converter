@@ -6,7 +6,7 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
-import { FileFormatType } from 'src/shared/enums/file.enum';
+import { FileFormatType } from '../../shared/enums/file.enum';
 import { ValidateNestedSeparators } from '../decorators/validate-separators.decorator';
 import { ValidateTargetFormat } from '../decorators/validate-target-format.decorator';
 

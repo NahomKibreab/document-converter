@@ -5,7 +5,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { isSeparatorRequired } from 'src/shared/utils/validation.util';
+import { isSeparatorRequired } from '../../shared/utils/validation.util';
 
 /**
  * Decorator that validates the target format of a property.

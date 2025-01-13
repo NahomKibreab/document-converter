@@ -1,7 +1,7 @@
 import { BadRequestException, FileValidator } from '@nestjs/common';
 import { IFile } from '@nestjs/common/pipes/file/interfaces';
 import { fromBuffer } from 'file-type';
-import { FileFormatExtension } from 'src/shared/enums/file.enum';
+import { FileFormatExtension } from '../../shared/enums/file.enum';
 
 export type FileTypeValidatorOptions = {
   fileType: FileFormatExtension[];
