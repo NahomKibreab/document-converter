@@ -86,6 +86,9 @@ enum FileFormatType {
 > Note this application is only built for the backend and doesn't have a frontend interface so to test you can either use Insomnia or Postman to test locally. In my case, I used Insomnia to test the file conversion on my local machine and I took few screenshots for better understanding.
 <img width="1371" alt="image" src="https://github.com/user-attachments/assets/28355a26-7fc5-4d82-8edd-ca7736f7699e" />
 
+<img width="1364" alt="image" src="https://github.com/user-attachments/assets/4a2fbf24-1643-4fab-8420-025bfc1aa5d9" />
+
+
 
 ## Deployment
 
