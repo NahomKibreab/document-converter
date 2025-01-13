@@ -28,10 +28,6 @@ export class StringToJsonConverter implements ConversionStrategy {
         segmentObject[segmentName + i] = elements[i];
       }
 
-      for (let i = 1; i < elements.length; i++) {
-        segmentObject[`${segmentName}${i}`] = elements[i];
-      }
-
       if (!jsonResult[segmentName]) {
         jsonResult[segmentName] = [];
       }
