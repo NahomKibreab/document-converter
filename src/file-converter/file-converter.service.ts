@@ -19,7 +19,7 @@ import { XmlToStringConverter } from './strategies/xml-to-string.converter';
 
 @Injectable()
 export class FileConverterService {
-  private conversionContext: ConversionContext;
+  conversionContext: ConversionContext;
 
   constructor() {
     this.conversionContext = new ConversionContext();
@@ -30,6 +30,7 @@ export class FileConverterService {
 
     const uploadDir = join(process.cwd(), 'upload');
     const files = await fs.readdir(uploadDir);
+
     const fileName = files.find((file) => file.startsWith(fileId));
     const allowFileExtention = getAllowedFileExtension(targetFormat);
 
