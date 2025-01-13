@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { promises as fs } from 'fs';
+import * as fs from 'fs/promises';
 import { join } from 'path';
 
 @Injectable()
@@ -11,6 +11,7 @@ export class FileUploaderService {
     const newFileName = `${uniqueIdentifier}.${fileExtension}`;
     const uploadPath = join(uploadDir, newFileName);
 
+    console.log('uniqueIdentifier', uniqueIdentifier);
     try {
       await fs.mkdir(uploadDir, { recursive: true });
       await fs.writeFile(uploadPath, file.buffer);
