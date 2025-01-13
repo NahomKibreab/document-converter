@@ -26,6 +26,8 @@ export class ValidateSeparatorsConstraint
         segmentSeparator !== elementSeparator
       );
     }
+
+    return true;
   }
 
   defaultMessage() {
