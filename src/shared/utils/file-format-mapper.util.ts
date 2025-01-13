@@ -1,6 +1,6 @@
 import { FileFormatExtension, FileFormatType } from '../enums/file.enum';
 
-export const FileFormatTypeToExtensionMap: {
+const FileFormatTypeToExtensionMap: {
   [key in FileFormatType]: FileFormatExtension;
 } = {
   [FileFormatType.JSON_TO_STRING]: FileFormatExtension.JSON,
@@ -10,3 +10,6 @@ export const FileFormatTypeToExtensionMap: {
   [FileFormatType.XML_TO_STRING]: FileFormatExtension.XML,
   [FileFormatType.XML_TO_JSON]: FileFormatExtension.XML,
 };
+
+export const getAllowedFileExtension = (fileFormatType: FileFormatType) =>
+  FileFormatTypeToExtensionMap[fileFormatType];

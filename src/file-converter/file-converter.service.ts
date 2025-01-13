@@ -1,8 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { FileFormatType } from 'src/shared/enums/file.enum';
+import { getAllowedFileExtension } from '../shared/utils/file-format-mapper.util';
 import { ConversionContext } from './conversion-context';
 import { FileConverterDto } from './dto/file-converter.dto';
 import { JsonToStringConverter } from './strategies/json-to-string.converter';
@@ -22,8 +27,23 @@ export class FileConverterService {
 
   async convertDocument(input: FileConverterDto, res: Response) {
     const { targetFormat, fileId, separators } = input;
-    console.log('convertDocument - input', input);
-    const readFilePath = join(process.cwd(), `upload/${fileId}`);
+
+    const uploadDir = join(process.cwd(), 'upload');
+    const files = await fs.readdir(uploadDir);
+    const fileName = files.find((file) => file.startsWith(fileId));
+    const allowFileExtention = getAllowedFileExtension(targetFormat);
+
+    if (!fileName) {
+      throw new NotFoundException(`File with ID ${fileId} not found`);
+    }
+
+    if (!fileName.endsWith(`.${allowFileExtention}`)) {
+      throw new BadRequestException(
+        `File with ID ${fileId} has invalid format. Expected .${allowFileExtention} file extension`,
+      );
+    }
+
+    const readFilePath = join(uploadDir, fileName);
     const content = await fs.readFile(readFilePath);
 
     switch (targetFormat) {
