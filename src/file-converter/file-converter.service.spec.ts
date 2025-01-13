@@ -99,9 +99,4 @@ describe('FileConverterService', () => {
       BadRequestException,
     );
   });
-
-  it('should call remove method', () => {
-    const result = service.remove(1);
-    expect(result).toBe('This action removes a #1 fileConverter');
-  });
 });

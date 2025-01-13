@@ -102,7 +102,13 @@ export class FileConverterService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} fileConverter`;
+  async remove(fileId: string) {
+    const uploadDir = join(process.cwd(), 'upload');
+    const files = await fs.readdir(uploadDir);
+
+    const fileName = files.find((file) => file.startsWith(fileId));
+
+    await fs.unlink(join(uploadDir, fileName));
+    return `FileId ${fileId} removed successfully!`;
   }
 }

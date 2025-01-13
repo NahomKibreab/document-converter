@@ -40,8 +40,8 @@ export class FileConverterController {
     return res.send(result);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.fileConverterService.remove(+id);
+  @Delete(':fileId')
+  remove(@Param('fileId') fileId: string) {
+    return this.fileConverterService.remove(fileId);
   }
 }
