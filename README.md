@@ -6,6 +6,7 @@ Document Converter is an API to convert documents between three different format
 - .json
 - .xml
 
+
 ## Project setup
 
 ```bash
@@ -55,10 +56,10 @@ Steps to convert documents:
 }
 ```
 
-3. Use the `fileId` returned in previous step to request file conversion by hitting `http://localhost:3000/convert` (POST METHOD) endpoint. And here's the fields you need to include in your request.
+3. Use the `fileId` returned in the previous step to request file conversion by hitting `http://localhost:3000/convert` (POST METHOD) endpoint. And here are the fields you need to include in your request.
 
 ```json
-// User is requesting to convert document from text to xml file format
+// User is requesting to convert the document from text to XML file format
 {
   "fileId": "1736742780956505712001",
   "targetFormat": "STRING_TO_XML",
@@ -69,7 +70,7 @@ Steps to convert documents:
 }
 ```
 
-> Note that some conversion are not permitted intentionally to prevent unexpected errors and here are the `targetFormat` enums this application support.
+> Note that some conversions are not permitted intentionally to prevent unexpected errors and here are the `targetFormat` enums this application supports.
 
 ```typescript
 enum FileFormatType {
@@ -81,6 +82,16 @@ enum FileFormatType {
   JSON_TO_XML = 'JSON_TO_XML',
 }
 ```
+
+> Note this application is only built for the backend and doesn't have a frontend interface so to test you can either use Insomnia or Postman to test locally. In my case, I used Insomnia to test the file conversion on my local machine and I took few screenshots for better understanding.
+<img width="1371" alt="image" src="https://github.com/user-attachments/assets/28355a26-7fc5-4d82-8edd-ca7736f7699e" />
+
+<img width="1364" alt="image" src="https://github.com/user-attachments/assets/4a2fbf24-1643-4fab-8420-025bfc1aa5d9" />
+
+<img width="1728" alt="image" src="https://github.com/user-attachments/assets/d3e67763-3252-49cc-95d8-a76527bf2856" />
+
+
+
 
 ## Deployment
 
