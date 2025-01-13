@@ -4,7 +4,9 @@ Document Converter is an API to convert documents between three different format
 
 - .txt
 - .json
-- .xml
+- .XML
+
+ℹ️ Currently, this application doesn't accept multiple file conversion and the maximum file size allowed is 1MB 
 
 
 ## Project setup
