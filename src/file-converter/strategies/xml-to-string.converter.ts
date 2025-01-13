@@ -5,57 +5,46 @@ import {
 } from '../interfaces/conversion-strategy.interface';
 
 export class XmlToStringConverter implements ConversionStrategy {
+  private parser: XMLParser;
+
+  constructor() {
+    this.parser = new XMLParser();
+  }
+
   convert(input: ConversionStrategyInput): string {
     const { content, segmentSeparator, elementSeparator } = input;
-    const parser = new XMLParser();
-    const jObj = parser.parse(content);
+    const xmlToJsonResult = this.parser.parse(content);
 
     const segments: string[] = [];
 
-    const processObject = (obj: any, parentKey: string) => {
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          const value = obj[key];
-          if (Array.isArray(value)) {
-            value.forEach((item: any) => {
-              const elements: string[] = [];
-              for (const subKey in item) {
-                if (item.hasOwnProperty(subKey)) {
-                  elements.push(
-                    item[subKey] !== undefined ? item[subKey] : ' ',
-                  );
-                }
-              }
+    this.processObject(xmlToJsonResult.root, segments, elementSeparator);
 
-              segments.push(
-                `${parentKey}${key}${elementSeparator}${elements.join(elementSeparator)}${segmentSeparator}`,
-              );
-            });
-          } else if (typeof value === 'object') {
-            const elements = Object.values(value);
+    // Join all segments with the segment separator and return the result
+    return segments.join(segmentSeparator) + segmentSeparator;
+  }
 
-            segments.push(
-              `${parentKey}${key}${elementSeparator}${elements.join(elementSeparator)}${segmentSeparator}`,
-            );
-          } else {
-            segments.push(
-              `${parentKey}${key}${elementSeparator}${value}${segmentSeparator}`,
-            );
-          }
-        }
+  private processObject(
+    inputData: any,
+    segments: string[],
+    elementSeparator: string,
+  ) {
+    for (const [key, value] of Object.entries(inputData)) {
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          this.processObject({ [key]: item }, segments, elementSeparator);
+        });
+
+        continue;
       }
-    };
 
-    processObject(jObj['root'], '');
+      if (typeof value === 'object') {
+        const elements = Object.values(value).join(elementSeparator);
+        segments.push(`${key}${elementSeparator}${elements}`);
 
-    // Remove the trailing segment separator
-    if (segments.length > 0 && segments[segments.length - 1].endsWith('~')) {
-      segments[segments.length - 1] = segments[segments.length - 1].slice(
-        0,
-        -1,
-      );
+        continue;
+      }
+
+      segments.push(`${key}${elementSeparator}${value}`);
     }
-
-    return segments.join('') + segmentSeparator;
   }
 }
